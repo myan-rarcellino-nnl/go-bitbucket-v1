@@ -7934,6 +7934,65 @@ func (a *DefaultApiService) GetUser(username string) (*APIResponse, error) {
 	return NewBitbucketAPIResponse(localVarHTTPResponse)
 }
 
+func (a *DefaultApiService) WhoAmI() (string, *APIResponse, error) {
+	var (
+		localVarHTTPMethod = strings.ToUpper("Get")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/plugins/servlet/applinks/whoami"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"text/plain"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	r, err := a.client.prepareRequest(a.client.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return "", nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		resp, err := NewAPIResponseWithError(localVarHTTPResponse, nil, err)
+		return "", resp, err
+	}
+	defer localVarHTTPResponse.Body.Close()
+	if localVarHTTPResponse.StatusCode >= 300 {
+		bodyBytes, _ := ioutil.ReadAll(localVarHTTPResponse.Body)
+		resp, err := NewAPIResponseWithError(localVarHTTPResponse, bodyBytes, reportError("Status: %v, Body: %s", localVarHTTPResponse.Status, bodyBytes))
+		return "", resp, err
+	}
+
+	bodyBytes, readErr := ioutil.ReadAll(localVarHTTPResponse.Body)
+	if readErr != nil {
+		resp, err := NewAPIResponseWithError(localVarHTTPResponse, nil, reportError("Bad ReadAll when getting current user: %s", readErr))
+		return "", resp, err
+	}
+
+	resp, err := NewBitbucketAPIResponse(localVarHTTPResponse)
+	return string(bodyBytes), resp, err
+}
+
 /* DefaultApiService
 Retrieve a map of user setting key values for a specific user identified by the user slug.  &lt;p&gt;
 
