@@ -10,7 +10,6 @@ import (
 	"io/ioutil"
 	"net/url"
 	"strings"
-	"path/filepath"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -7944,7 +7943,10 @@ func (a *DefaultApiService) WhoAmI() (string, *APIResponse, error) {
 	)
 
 	// BasePath is <url>/rest
-	localVarPath := filepath.Clean(filepath.Join(a.client.cfg.BasePath, "..", "plugins", "servlet", "applinks", "whoami"));
+	localVarPath, err := url.JoinPath(a.client.cfg.BasePath, "..", "plugins", "servlet", "applinks", "whoami")
+	if err != nil {
+		return "", nil, err
+	}
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
