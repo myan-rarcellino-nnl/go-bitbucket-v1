@@ -633,6 +633,12 @@ func GetUsersResponse(r *APIResponse) ([]User, error) {
 	return c, err
 }
 
+func GetUsersWithLinksResponse(r *APIResponse) ([]UserWithLinks, error) {
+	var c []UserWithLinks
+	err := mapstructure.Decode(r.Values["values"], &c)
+	return c, err
+}
+
 // GetUsersPermissionResponse casts user permissions into structure
 func GetUsersPermissionResponse(r *APIResponse) ([]UserPermission, error) {
 	var c []UserPermission
