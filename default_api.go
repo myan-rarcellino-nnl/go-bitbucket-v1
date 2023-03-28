@@ -7943,7 +7943,7 @@ func (a *DefaultApiService) WhoAmI() (string, *APIResponse, error) {
 	)
 
 	// BasePath is <url>/rest
-	localVarPath := a.client.cfg.BasePath + "../plugins/servlet/applinks/whoami"
+	localVarPath := a.client.cfg.BasePath + "/../plugins/servlet/applinks/whoami"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
