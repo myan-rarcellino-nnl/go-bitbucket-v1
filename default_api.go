@@ -7989,8 +7989,8 @@ func (a *DefaultApiService) WhoAmI() (string, *APIResponse, error) {
 		return "", resp, err
 	}
 
-	resp, err := NewBitbucketAPIResponse(localVarHTTPResponse)
-	return string(bodyBytes), resp, err
+	resp := &APIResponse{Response: localVarHTTPResponse}
+	return string(bodyBytes), resp, nil
 }
 
 /* DefaultApiService
