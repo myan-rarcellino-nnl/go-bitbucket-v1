@@ -633,9 +633,9 @@ func GetUsersResponse(r *APIResponse) ([]User, error) {
 	return c, err
 }
 
-func GetUsersWithLinksResponse(r *APIResponse) ([]UserWithLinks, error) {
-	var c []UserWithLinks
-	err := mapstructure.Decode(r.Values["values"], &c)
+func GetUserWithLinksResponse(r *APIResponse) (UserWithLinks, error) {
+	var c UserWithLinks
+	err := mapstructure.Decode(r.Values, &c)
 	return c, err
 }
 
